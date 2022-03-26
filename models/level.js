@@ -9,8 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       return {
         id: values.id,
         level: values.level,
-        letter: values.letters,
-        words: JSON.parse(values.words)
+        letter: JSON.parse(values.letters),
+        words: JSON.parse(values.words),
+        positions: JSON.parse(values.positions),
       };
     }
 
@@ -21,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   Level.init({
     letters: DataTypes.STRING,
     words: DataTypes.STRING,
+    positions: DataTypes.STRING,
     level: DataTypes.INTEGER,
     meta: DataTypes.STRING
   }, {
