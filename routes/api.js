@@ -11,5 +11,6 @@ router.route('/profile').get(verifyToken, UserController.getProfile).all(methods
 router.route('/update-profile').put(verifyToken, UserController.updateProfileValidations(), UserController.updateProfile).all(methodsHandler)
 router.route('/create-level').post(verifyToken, LevelController.createLevelValidations(), LevelController.createLevel).all(methodsHandler)
 router.route('/levels').get(LevelController.getLevels).all(methodsHandler)
+router.route('/ranks').get(UserController.getRanks).all(methodsHandler)
 
 module.exports = router

@@ -12,7 +12,6 @@ class UserController {
         generateHash(req.body.password, async function (hash) {
             const user = await User.create({
                 username: req.body.username,
-                email: req.body.email,
                 password: hash,
                 role: "user"
             })
@@ -22,7 +21,7 @@ class UserController {
     }
 
     async login(req, res) {
-        const user = await  User.findOne({ where: { [Op.or] : [{ username:  req.body.username}, {email: req.body.username}] } })
+        const user = await  User.findOne({ where: { username:  req.body.username}})
         if(user == null) {
             return res.status(400).send({success: false, message: "Username or password is wrong"});
         }
@@ -55,10 +54,14 @@ class UserController {
         }
     }
 
+    static async getRanks(req, res) {
+        const users = await User.findAll({ order: [['score', 'DESC']] });
+        return res.send({data: users});
+    }
+
     registerValidations() {
         return validate([
             body('password').isLength({ min: 6 }),
-            body('email').isEmail().custom(input => checkExists(input, "email")),
             body('username').custom(input => checkExists(input, "username"))
         ])
     }
@@ -74,7 +77,6 @@ class UserController {
         return validate([
             body('password').optional().isLength({ min: 6 }),
             body('previous_password').if(body("password").exists()).notEmpty().withMessage("previous password is required"),
-            body("email").optional().isEmail().custom(input => checkExists(input, "email")),
             body('username').optional().custom(input => checkExists(input, "username"))
         ])
     }

@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       return {
         id: values.id,
         username: values.username,
-        email: values.email,
         level: values.LevelId,
         score: values.score
       };
@@ -25,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init({
     username: DataTypes.STRING,
-    email: DataTypes.STRING,
     password: DataTypes.STRING,
     role: DataTypes.STRING,
     score: DataTypes.INTEGER,
