@@ -13,7 +13,10 @@ class LevelController {
     }
 
     static async getLevels(req, res) {
-        return res.send({data: await Level.findAll()});
+        return res.send({
+            seasonsCount: 20,
+            data: await Level.findAndCountAll()
+        });
     }
 
     static createLevelValidations() {
