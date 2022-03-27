@@ -15,7 +15,7 @@ class LevelController {
     static async getLevels(req, res) {
         return res.send({
             seasonsCount: 20,
-            data: await Level.findAndCountAll()
+            data: await Level.findAll()
         });
     }
 
