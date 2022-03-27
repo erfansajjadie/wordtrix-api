@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
         id: values.id,
         level: values.level,
         season: values.season,
-        letters: JSON.parse(values.letters),
-        words: JSON.parse(values.words),
+        letters: values.letter,
+        words: values.words,
         positions: JSON.parse(values.positions),
       };
     }
