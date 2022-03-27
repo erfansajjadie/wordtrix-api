@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     words: DataTypes.STRING,
     positions: DataTypes.STRING,
     level: DataTypes.INTEGER,
+    season: DataTypes.INTEGER,
     meta: DataTypes.STRING
   }, {
     sequelize,
