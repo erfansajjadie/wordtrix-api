@@ -10,9 +10,13 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toJSON() {
       let values = Object.assign({}, this.get());
-      return values;
+      return {
+        id: values.id,
+        username: values.username,
+        levelId: values.levelId,
+        score: values.score
+      };
     }
-
   }
   User.init({
     username: DataTypes.STRING,
