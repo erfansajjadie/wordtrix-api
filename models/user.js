@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       return {
         id: values.id,
         username: values.username,
-        level: values.LevelId,
+        level: values.levelId,
         score: values.score
       };
     }
