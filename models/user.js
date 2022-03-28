@@ -13,14 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       return {
         id: values.id,
         username: values.username,
-        level: values.levelId,
+        levelId: values.levelId,
         score: values.score
       };
     }
 
-    static associate(models) {
-      this.belongsTo(models.Level);
-    }
   }
   User.init({
     username: DataTypes.STRING,
