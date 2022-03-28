@@ -3,7 +3,7 @@ const { Question, User, Answers } = require("../models");
 
 class QuestionController {
     static async getQuestion(req, res) {
-        return res.send(await Question.findByPk(1, { attributes: { exclude: ['createdAt', 'updatedAt'] } }));
+        return res.send(await Question.findByPk(1, { attributes: { exclude: ['createdAt', 'updatedAt', 'answer'] } }));
     }
 
     static async answerQuestion(req, res) {
