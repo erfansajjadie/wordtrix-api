@@ -31,18 +31,9 @@ class UserController {
 
     static async updateProfile(req, res) {
         const user = await User.findOne({ where: { deviceId: req.deviceId} })
-        if(req.body.hasOwnProperty('password')) {
-            compareHash(req.body.previous_password, user.password, async function (result) {
-                if (!result) {
-                    return res.status(400).send({success: false, message: "Previous password is wrong"});
-                }
-                await user.update(req.body);
-                res.send(user)
-            })
-        }else {
-            await user.update(req.body);
-            res.send(user)
-        }
+        await user.update(req.body);
+        res.send(user)
+
     }
 
     static async getRanks(req, res) {
