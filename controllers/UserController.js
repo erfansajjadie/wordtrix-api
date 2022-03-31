@@ -13,7 +13,7 @@ class UserController {
     async login (req, res) {
         let user = await  User.findAll({ where: { deviceId : req.body.deviceId }});
         if(user.length !== 0) {
-            let token = jwt.sign({ user_id: user.deviceId }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
+            let token = jwt.sign({ user }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
             return res.send({ user: user, token: token })
         }
         return res.send({ success: false, message: "Device not registered" })
@@ -21,16 +21,16 @@ class UserController {
 
     async register(req, res) {
         let user = await User.create({ username : req.body.username,  deviceId: req.body.deviceId})
-        let token = jwt.sign({ user_id: user.deviceId }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
+        let token = jwt.sign({ user }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
         return res.send({ user: user, token: token })
     }
 
     static async getProfile(req, res) {
-        return res.status(200).send(await User.findOne({where: {id: req.deviceId}}));
+        return res.status(200).send(await User.findOne({where: {id: req.user.id}}));
     }
 
     static async updateProfile(req, res) {
-        const user = await User.findOne({ where: { deviceId: req.deviceId} })
+        const user = await User.findOne({ where: { deviceId: req.user.id} })
         await user.update(req.body);
         res.send(user)
 
