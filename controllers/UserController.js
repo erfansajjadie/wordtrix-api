@@ -26,7 +26,7 @@ class UserController {
     }
 
     static async getProfile(req, res) {
-        return res.send(req.user["id"])
+        return res.send(req.user.deviceId)
         return res.status(200).send(await User.findOne({where: {deviceId: req.user["id"]}}));
     }
 
