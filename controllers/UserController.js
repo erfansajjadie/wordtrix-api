@@ -26,7 +26,7 @@ class UserController {
     }
 
     static async getProfile(req, res) {
-        return res.status(200).send(await User.findOne({where: {id: req.user.id}}));
+        return res.status(200).send(await User.findOne({where: {id: req.deviceId}}));
     }
 
     static async updateProfile(req, res) {
