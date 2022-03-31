@@ -11,8 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         level: values.level,
         season: values.season,
         letters: values.letters,
-        words: values.words,
-        positions: JSON.parse(values.positions),
+        words: Object.keys(JSON.parse(values.positions)),
       };
     }
 
