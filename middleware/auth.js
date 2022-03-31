@@ -8,7 +8,7 @@ const verifyToken = (req, res, next) => {
     }
     token = token.split(" ")[1]
     try {
-        req.user = jwt.verify(token, process.env.TOKEN_SECRET).user;
+        req.deviceId = jwt.verify(token, process.env.TOKEN_SECRET).user.deviceId;
     } catch (err) {
         return res.status(401).send({status: 401, message: "Unauthorized"});
     }
