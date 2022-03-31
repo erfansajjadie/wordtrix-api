@@ -9,7 +9,6 @@ const verifyToken = (req, res, next) => {
     token = token.split(" ")[1]
     try {
         req.user = jwt.verify(token, process.env.TOKEN_SECRET).user;
-        console.log(jwt.verify(token, process.env.TOKEN_SECRET));
     } catch (err) {
         return res.status(401).send({status: 401, message: "Unauthorized"});
     }

@@ -11,8 +11,8 @@ class UserController {
 
 
     async login (req, res) {
-        let user = await  User.findAll({ where: { deviceId : req.body.deviceId }});
-        if(user.length !== 0) {
+        let user = await  User.findOne({ where: { deviceId : req.body.deviceId }});
+        if(user != null) {
             let token = jwt.sign({ user }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
             return res.send({ user: user, token: token })
         }
@@ -26,12 +26,11 @@ class UserController {
     }
 
     static async getProfile(req, res) {
-        return res.send(req.user.deviceId)
-        return res.status(200).send(await User.findOne({where: {deviceId: req.user["id"]}}));
+        return res.status(200).send(await User.findOne({where: {deviceId: req.user.id}}));
     }
 
     static async updateProfile(req, res) {
-        const user = await User.findOne({ where: { deviceId: req.user["id"]} })
+        const user = await User.findOne({ where: { deviceId: req.user.id} })
         await user.update(req.body);
         res.send(user)
 
