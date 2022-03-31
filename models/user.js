@@ -14,13 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         id: values.id,
         username: values.username,
         levelId: values.levelId,
-        score: values.score
+        score: values.score,
+        deviceId: values.deviceId
       };
     }
   }
   User.init({
     username: DataTypes.STRING,
-    password: DataTypes.STRING,
+    deviceId: DataTypes.STRING,
     levelId: DataTypes.INTEGER,
     role: DataTypes.STRING,
     score: DataTypes.INTEGER,

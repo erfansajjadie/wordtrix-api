@@ -8,30 +8,21 @@ const {where, Op} = require("sequelize");
 
 
 class UserController {
-    async register(req, res) {
-        generateHash(req.body.password, async function (hash) {
-            const user = await User.create({
-                username: req.body.username,
-                password: hash,
-                role: "user"
-            })
-            let token = jwt.sign({user}, process.env.TOKEN_SECRET, {expiresIn: '180000000s'})
-            res.send({user: user, token: token})
-        })
+
+
+    async login (req, res) {
+        let user = await  User.findAll({ where: { deviceId : req.body.deviceId }});
+        if(user.length !== 0) {
+            let token = jwt.sign({ user }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
+            return res.send({ user: user, token: token })
+        }
+        return res.send({ success: false, message: "Device not registered" })
     }
 
-    async login(req, res) {
-        const user = await  User.findOne({ where: { username:  req.body.username}})
-        if(user == null) {
-            return res.status(400).send({success: false, message: "Username or password is wrong"});
-        }
-        compareHash(req.body.password, user.password, function (result) {
-            if(!result) {
-                return res.status(400).send({success: false, message: "Username or password is wrong"});
-            }
-            let token = jwt.sign({user}, process.env.TOKEN_SECRET, {expiresIn: '180000000s'})
-            return res.send({user: user, token: token})
-        })
+    async register(req, res) {
+        let user = await User.create({ username : req.body.username,  deviceId: req.body.deviceId})
+        let token = jwt.sign({ user }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
+        return res.send({ user: user, token: token })
     }
 
     static async getProfile(req, res) {
@@ -61,42 +52,23 @@ class UserController {
 
     registerValidations() {
         return validate([
-            body('password').isLength({ min: 6 }),
-            body('username').custom(input => checkExists(input, "username"))
+            body('deviceId').notEmpty().withMessage("deviceId must not be empty"),
+            body('username').notEmpty().withMessage('user name ').isLength({ min: 3 })
+                .withMessage("username must have at least 3 length")
+                .custom(input => checkExists(input, "username"))
         ])
     }
 
-    loginValidations () {
+    loginValidations() {
         return validate([
-            body("username").notEmpty(),
-            body("password").notEmpty()
+            body('deviceId').notEmpty().withMessage("deviceId must not be empty"),
         ])
     }
 
     static  updateProfileValidations() {
         return validate([
-            body('password').optional().isLength({ min: 6 }),
-            body('previous_password').if(body("password").exists()).notEmpty().withMessage("previous password is required"),
             body('username').optional().custom(input => checkExists(input, "username"))
         ])
     }
-
-  /*  authenticateToken(req, res, next) {
-        const authHeader = req.headers['authorization']
-        const token = authHeader && authHeader.split(' ')[1]
-
-        if (token == null) return res.sendStatus(401)
-
-        jwt.verify(token, process.env.TOKEN_SECRET as string, (err, user) => {
-            console.log(err)
-
-            if (err) return res.sendStatus(403)
-
-            req.user = user
-
-            next()
-        })
-    }*/
-
 }
 exports.UserController = UserController;

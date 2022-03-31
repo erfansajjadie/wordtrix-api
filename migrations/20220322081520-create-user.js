@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
         unique: true
       },
-      password: {
+      deviceId: {
         type: Sequelize.STRING
       },
       role: {
