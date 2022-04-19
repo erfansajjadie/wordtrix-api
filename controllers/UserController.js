@@ -20,9 +20,16 @@ class UserController {
     }
 
     async register(req, res) {
-        let user = await User.create({ username : req.body.username,  deviceId: req.body.deviceId})
-        let token = jwt.sign({ user }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
-        return res.send({ user: user, token: token })
+        let user = await  User.findOne({ where: { deviceId : req.body.deviceId }});
+        if(user != null) {
+            user = await  user.update({ username : req.body.username })
+            let token = jwt.sign({ user }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
+            return res.send({ user: user, token: token })
+        } else {
+            let user = await User.create({ username : req.body.username,  deviceId: req.body.deviceId})
+            let token = jwt.sign({ user }, process.env.TOKEN_SECRET, {expiresIn: '180000000s'});
+            return res.send({ user: user, token: token })
+        }
     }
 
     static async getProfile(req, res) {
