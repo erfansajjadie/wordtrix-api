@@ -43,7 +43,7 @@ class UserController {
     }
 
     static async getRanks(req, res) {
-        const users = await User.findAll({ order: [['level', 'DESC']] });
+        const users = await User.findAll({ order: [['levelId', 'DESC']] });
         return res.send({data: users});
     }
 
