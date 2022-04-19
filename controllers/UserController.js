@@ -33,7 +33,6 @@ class UserController {
         const user = await User.findOne({ where: { id: req.user.id} })
         await user.update(req.body);
         res.send(user)
-
     }
 
     static async getRanks(req, res) {
@@ -46,7 +45,6 @@ class UserController {
             body('deviceId').notEmpty().withMessage("deviceId must not be empty"),
             body('username').notEmpty().withMessage('user name ').isLength({ min: 3 })
                 .withMessage("username must have at least 3 length")
-                .custom(input => checkExists(input, "username"))
         ])
     }
 
