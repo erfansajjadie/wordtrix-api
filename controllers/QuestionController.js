@@ -4,7 +4,7 @@ const { Question, User, Answers } = require("../models");
 class QuestionController {
     static async getQuestion(req, res) {
         let question = await Question.findByPk(1, { attributes: { exclude: ['createdAt', 'updatedAt', 'answer'] } });
-        let answer = await Answers.find({ where: { userId: req.user.id, questionId: question.id }});
+        let answer = await Answers.findOne({ where: { userId: req.user.id, questionId: question.id }});
         return res.send({
             question: question,
             answer: answer
