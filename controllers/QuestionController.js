@@ -3,7 +3,12 @@ const { Question, User, Answers } = require("../models");
 
 class QuestionController {
     static async getQuestion(req, res) {
-        return res.send(await Question.findByPk(1, { attributes: { exclude: ['createdAt', 'updatedAt', 'answer'] } }));
+        let question = await Question.findByPk(1, { attributes: { exclude: ['createdAt', 'updatedAt', 'answer'] } });
+        let answer = await Answers.find({ where: { userId: req.user.id, questionId: question.id }});
+        return res.send({
+            question: question,
+            answer: answer
+        });
     }
 
     static async answerQuestion(req, res) {
@@ -11,7 +16,9 @@ class QuestionController {
 
         let count = await Answers.count({ where: { userId: req.user.id, questionId: req.params.id }})
         if(count !== 0) {
-            return res.send({ message: "You have answered this question before" })
+            return res.send({
+                message: "You have answered this question before"
+            })
         }
 
         Question.findByPk(req.params.id).then(async value => {
