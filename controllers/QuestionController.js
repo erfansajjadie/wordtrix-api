@@ -22,13 +22,13 @@ class QuestionController {
         }
 
         Question.findByPk(req.params.id).then(async value => {
+            let answer = await Answers.create({
+                userId: req.user.id,
+                questionId: req.params.id,
+                choice: req.body.choice
+            })
             if (value.answer === req.body.choice) {
                 let user = await User.increment('score', {by: 200, where: {id: req.user.id}});
-                let answer = await Answers.create({
-                    userId: req.user.id,
-                    questionId: req.params.id,
-                    choice: req.body.choice
-                })
                 return res.send({
                     message: "Correct answer",
                     answer: answer
