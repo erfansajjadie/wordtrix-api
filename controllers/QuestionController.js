@@ -6,7 +6,7 @@ class QuestionController {
         let question = await Question.findByPk(1, { attributes: { exclude: ['createdAt', 'updatedAt', 'answer'] } });
         let answer = await Answers.findOne({ where: { userId: req.user.id, questionId: question.id }});
         return res.send({
-            question,
+            question: question,
             answer: answer?.choice ?? null
         });
     }
