@@ -8,7 +8,7 @@ class QuestionController {
         return res.send({
             question: question,
             answer: answer?.choice ?? null,
-            correct_answer:  question.answer
+            correct_answer: answer?.choice == null ? null : question.answer
         });
     }
 
