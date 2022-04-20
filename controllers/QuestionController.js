@@ -7,7 +7,7 @@ class QuestionController {
         let answer = await Answers.findOne({ where: { userId: req.user.id, questionId: question.id }});
         return res.send({
             question: question,
-            answer: answer.choice
+            answer: answer?.choice
         });
     }
 
