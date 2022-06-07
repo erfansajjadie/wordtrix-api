@@ -12,6 +12,7 @@ router.route('/update-profile').put(verifyToken, UserController.updateProfileVal
 router.route('/create-level').post(verifyToken, LevelController.createLevelValidations(), LevelController.createLevel).all(methodsHandler)
 router.route('/question').get(verifyToken, QuestionController.getQuestion).all(methodsHandler)
 router.route('/answer/:id').post(verifyToken, QuestionController.answerQuestion).all(methodsHandler)
+router.route('/delete-user').delete(verifyToken, UserController.deleteUser).all(methodsHandler)
 router.route('/levels').get(LevelController.getLevels).all(methodsHandler)
 router.route('/ranks').get(UserController.getRanks).all(methodsHandler)
 

@@ -42,6 +42,10 @@ class UserController {
         res.send(user)
     }
 
+    static async deleteUser() {
+        await (await User.findOne({where: {id: req.user.id}})).destroy();
+    }
+
     static async getRanks(req, res) {
         const users = await User.findAll({ order: [['levelId', 'DESC']] });
         return res.send({data: users});
@@ -66,5 +70,7 @@ class UserController {
             body('username').optional().custom(input => checkExists(input, "username"))
         ])
     }
+
+
 }
 exports.UserController = UserController;
