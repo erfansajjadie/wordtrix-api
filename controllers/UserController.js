@@ -43,7 +43,12 @@ class UserController {
     }
 
     static async deleteUser(req, res) {
-        await (await User.findOne({where: {id: req.user.id}})).destroy();
+        const user = await User.findOne({ where: { id: req.user.id} })
+        if(user != null) {
+            await user.destroy();
+        }else {
+            return res.send({success: false})
+        }
         res.send({success: true})
     }
 
