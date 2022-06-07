@@ -42,8 +42,9 @@ class UserController {
         res.send(user)
     }
 
-    static async deleteUser() {
+    static async deleteUser(req, res) {
         await (await User.findOne({where: {id: req.user.id}})).destroy();
+        res.send({success: true})
     }
 
     static async getRanks(req, res) {
