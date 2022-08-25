@@ -8,6 +8,7 @@ class QuestionController {
 
     static async createQuestion (req, res) {
         let data = req.body;
+        data.choices = JSON.stringify(data.choices);
         const question = await Question.create(data)
         return res.status(201).send({message: "Question Created", question: question})
     }
