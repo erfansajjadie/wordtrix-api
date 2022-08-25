@@ -16,7 +16,7 @@ class QuestionController {
         return res.status(201).send({message: "Question Created", question: question})
     }
 
-    static async getQuestion(req, res) {
+    static async getRandomQuestion(req, res) {
         let question = await Question.findOne({ attributes: { exclude: ['createdAt', 'updatedAt'] }, order: [
                 Sequelize.fn( 'RAND' ),
             ] });
@@ -26,6 +26,10 @@ class QuestionController {
             answer: answer?.choice ?? null,
             correct_answer: answer == null ? null : question.answer
         });
+    }
+
+    static getQuestions (req, res) {
+        return Question.findAll();
     }
 
     static async answerQuestion(req, res) {
