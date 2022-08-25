@@ -28,8 +28,8 @@ class QuestionController {
         });
     }
 
-    static getQuestions (req, res) {
-        return Question.findAll();
+    static async getQuestions (req, res) {
+        return await Question.findAll();
     }
 
     static async answerQuestion(req, res) {
