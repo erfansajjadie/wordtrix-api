@@ -7,11 +7,7 @@ const {isNumeric} = require("validator");
 class QuestionController {
 
     static async createQuestion (req, res) {
-        if(req.body.isEmpty() == null) {
-
-        }
         let data = req.body;
-
         const question = await Question.create(req.body)
         return res.status(201).send({message: "Question Created", question: question})
     }

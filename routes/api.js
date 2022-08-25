@@ -15,6 +15,6 @@ router.route('/answer/:id').post(verifyToken, QuestionController.answerQuestion)
 router.route('/delete-user').delete(verifyToken, UserController.deleteUser).all(methodsHandler)
 router.route('/levels').get(LevelController.getLevels).all(methodsHandler)
 router.route('/ranks').get(UserController.getRanks).all(methodsHandler)
-router.route('/create-question').post(QuestionController.createQuestion).all(methodsHandler)
+router.route('/create-question').post(QuestionController.createQuestion, QuestionController.createQuestionValidations).all(methodsHandler)
 
 module.exports = router
