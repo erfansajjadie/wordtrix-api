@@ -29,7 +29,8 @@ class QuestionController {
     }
 
     static async getQuestions (req, res) {
-        return await Question.findAll();
+        let questions = await Question.findAll();
+        return res.status(200).send({ data: questions });
     }
 
     static async answerQuestion(req, res) {
