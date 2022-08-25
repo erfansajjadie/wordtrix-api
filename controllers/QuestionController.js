@@ -2,7 +2,8 @@ const { Question, User, Answers, Level} = require("../models");
 const {validate} = require("../middleware/validator");
 const {body} = require("express-validator");
 const {isNumeric} = require("validator");
-import Sequelize from 'sequelize';
+const {Sequelize} = require("sequelize");
+
 
 
 
