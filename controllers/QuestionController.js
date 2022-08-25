@@ -1,4 +1,7 @@
 const { Question, User, Answers, Level} = require("../models");
+const {validate} = require("../middleware/validator");
+const {body} = require("express-validator");
+const {isNumeric} = require("validator");
 
 
 class QuestionController {
@@ -46,6 +49,14 @@ class QuestionController {
                 message: "Wrong answer"
             })
         }).catch(reason => res.send({message: reason.message}))
+    }
+
+    static createQuestionValidations() {
+        return validate([
+            body("title").notEmpty().withMessage("title must not be empty"),
+            body("answer").isInt().withMessage("answer must be integer"),
+            body("choices").isArray({ min: 1 }).withMessage("answer must be integer"),
+        ]);
     }
 }
 
