@@ -6,9 +6,17 @@ const {isNumeric} = require("validator");
 
 class QuestionController {
 
+    static createQuestionValidations() {
+        return validate([
+            body("title").notEmpty().withMessage("title must not be empty"),
+            body("answer").isInt().withMessage("answer must be integer"),
+            body("choices").isArray({ min: 1 }).withMessage("answer must be integer"),
+        ]);
+    }
+
     static async createQuestion (req, res) {
         let data = req.body;
-        this.createQuestionValidations();
+        QuestionController.createQuestionValidations();
         return res.status(201).send({message: "Question Created", question: data})
         const question = await Question.create(data)
         return res.status(201).send({message: "Question Created", question: question})
@@ -53,13 +61,7 @@ class QuestionController {
         }).catch(reason => res.send({message: reason.message}))
     }
 
-    static createQuestionValidations() {
-        return validate([
-            body("title").notEmpty().withMessage("title must not be empty"),
-            body("answer").isInt().withMessage("answer must be integer"),
-            body("choices").isArray({ min: 1 }).withMessage("answer must be integer"),
-        ]);
-    }
+
 }
 
 exports.QuestionController = QuestionController;
