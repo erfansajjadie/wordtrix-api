@@ -1,7 +1,14 @@
-const { Question, User, Answers } = require("../models");
+const { Question, User, Answers, Level} = require("../models");
 
 
 class QuestionController {
+
+    static async createQuestion (req, res) {
+        let data = req.body;
+        const question = await Question.create(req.body)
+        return res.status(201).send({message: "Question Created", question: question})
+    }
+
     static async getQuestion(req, res) {
         let question = await Question.findByPk(1, { attributes: { exclude: ['createdAt', 'updatedAt'] } });
         let answer = await Answers.findOne({ where: { userId: req.user.id, questionId: question.id }});
