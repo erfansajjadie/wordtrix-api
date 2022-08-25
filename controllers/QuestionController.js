@@ -56,7 +56,7 @@ class QuestionController {
         return validate([
             body("title").notEmpty().withMessage("title must not be empty"),
             body("answer").isInt().withMessage("answer must be integer"),
-            body("choices").isArray({ min: 1 }).withMessage("choices must be an array"),
+            body("choices").isArray({ min: 4 }).withMessage("choices must be an array"),
         ]);
     }
 }
