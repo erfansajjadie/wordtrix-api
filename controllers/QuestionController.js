@@ -16,7 +16,11 @@ class QuestionController {
 
     static async createQuestion (req, res) {
         let data = req.body;
-        QuestionController.createQuestionValidations();
+        validate([
+            body("title").notEmpty().withMessage("title must not be empty"),
+            body("answer").isInt().withMessage("answer must be integer"),
+            body("choices").isArray({ min: 1 }).withMessage("answer must be integer"),
+        ])
         return res.status(201).send({message: "Question Created", question: data})
         const question = await Question.create(data)
         return res.status(201).send({message: "Question Created", question: question})
