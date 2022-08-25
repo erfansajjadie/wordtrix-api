@@ -2,6 +2,7 @@ const { Question, User, Answers, Level} = require("../models");
 const {validate} = require("../middleware/validator");
 const {body} = require("express-validator");
 const {isNumeric} = require("validator");
+const {Sequelize} = require("sequelize/types");
 
 
 class QuestionController {
@@ -14,7 +15,9 @@ class QuestionController {
     }
 
     static async getQuestion(req, res) {
-        let question = await Question.findByPk(1, { attributes: { exclude: ['createdAt', 'updatedAt'] } });
+        let question = await Question.findOne({ attributes: { exclude: ['createdAt', 'updatedAt'] }, order: [
+                Sequelize.fn( 'RAND' ),
+            ] });
         let answer = await Answers.findOne({ where: { userId: req.user.id, questionId: question.id }});
         return res.send({
             question: question,
